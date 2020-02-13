@@ -19,6 +19,29 @@ module.exports = function(app) {
         })
       );
   });
+  app.get("/books/:id", function(req, res, next) {
+    const book_id = req.params.id;
+
+    model.book
+      .findAll({
+        where: {
+          id: book_id
+        }
+      })
+      .then(books =>
+        res.json({
+          error: false,
+          data: books
+        })
+      )
+      .catch(error =>
+        res.json({
+          error: true,
+          data: [],
+          error: error
+        })
+      );
+  });
 
   app.post(
     "/books",
