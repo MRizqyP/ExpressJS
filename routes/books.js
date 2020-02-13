@@ -71,7 +71,7 @@ module.exports = function(app) {
       .then(book =>
         res.json({
           error: false,
-          message: "todo has been updated."
+          message: "Buku berhasil di update."
         })
       )
       .catch(error =>
@@ -94,7 +94,7 @@ module.exports = function(app) {
       .then(status =>
         res.json({
           error: false,
-          message: "todo has been delete."
+          message: "Buku berhasil di delete."
         })
       )
       .catch(error =>
