@@ -23,15 +23,22 @@ exports.users = asyncMiddleware(async (req, res) => {
   });
 });
 exports.books = asyncMiddleware(async (req, res) => {
+  const {
+    id,
+    title,
+    author,
+    published_date,
+    pages,
+    language,
+    published_id
+  } = req.body;
   const book = await Book.create({
-    attributes: [
-      "title",
-      "author",
-      "published_date",
-      "pages",
-      "language",
-      "published_id"
-    ],
+    title: title,
+    author: author,
+    published_date: published_date,
+    pages: pages,
+    language: language,
+    published_id: published_id,
     include: [
       {
         model: Role,
