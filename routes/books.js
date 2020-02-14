@@ -74,6 +74,7 @@ module.exports = function(app) {
         return res.status(422).json({ errors: errors.array() });
       }
       const {
+        id,
         title,
         author,
         published_date,
