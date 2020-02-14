@@ -2,6 +2,7 @@ const db = require("../app/db.js");
 const config = require("../app/config.js");
 const User = db.user;
 const Role = db.role;
+const Book = db.book;
 const asyncMiddleware = require("express-async-handler");
 const Op = db.Sequelize.Op;
 var jwt = require("jsonwebtoken");

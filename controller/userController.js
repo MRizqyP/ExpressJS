@@ -22,7 +22,9 @@ exports.users = asyncMiddleware(async (req, res) => {
     user: user
   });
 });
-exports.books = asyncMiddleware(async (req, res) => {
+exports.tambahbuku = asyncMiddleware(async (req, res) => {
+  // Save User to Database
+  console.log("Processing func -> Tambah Buku");
   const {
     id,
     title,
@@ -32,28 +34,45 @@ exports.books = asyncMiddleware(async (req, res) => {
     language,
     published_id
   } = req.body;
-  const book = await Book.create({
-    title: title,
-    author: author,
-    published_date: published_date,
-    pages: pages,
-    language: language,
-    published_id: published_id,
-    include: [
-      {
-        model: Role,
-        attributes: ["id", "name"],
-        through: {
-          attributes: ["userId", "bookId"]
-        }
-      }
-    ]
-  });
-  res.status(200).json({
-    description: "All Books",
-    book: book
-  });
+  model.book
+    .create({
+      title: title,
+      author: author,
+      published_date: published_date,
+      pages: pages,
+      language: language,
+      published_id: published_id
+    })
+    .then(book =>
+      res.status(201).json({
+        error: false,
+        data: book,
+        message: "Buku baru berhasil di tambahkan."
+      })
+    )
+    .catch(error =>
+      res.json({
+        error: true,
+        data: [],
+        error: error
+      })
+    );
+
+  // const book = await Book.create({
+  //   title: req.body.title,
+  //   author: req.body.author,
+  //   published_date: req.body.published_date,
+  //   pages: req.body.pages,
+  //   language: req.body.language,
+  //   published_id: req.body.published_id
+  // });
+  // // await book.setUsers(users);
+  // res.status(201).send({
+  //   status: "Book registered successfully!"
+  // });
 });
+exports.tampilbuku = asyncMiddleware(async (req, res) => {});
+
 exports.userContent = asyncMiddleware(async (req, res) => {
   const user = await User.findOne({
     where: { id: req.userId },
