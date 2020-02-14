@@ -23,8 +23,15 @@ exports.users = asyncMiddleware(async (req, res) => {
   });
 });
 exports.books = asyncMiddleware(async (req, res) => {
-  const book = await book.findAll({
-    attributes: ["title", "author", "pages"],
+  const book = await Book.create({
+    attributes: [
+      "title",
+      "author",
+      "published_date",
+      "pages",
+      "language",
+      "published_id"
+    ],
     include: [
       {
         model: Role,
@@ -37,7 +44,7 @@ exports.books = asyncMiddleware(async (req, res) => {
   });
   res.status(200).json({
     description: "All Books",
-    user: user
+    book: book
   });
 });
 exports.userContent = asyncMiddleware(async (req, res) => {

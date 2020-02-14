@@ -27,6 +27,7 @@ exports.signup = asyncMiddleware(async (req, res) => {
     status: "User registered successfully!"
   });
 });
+
 exports.signin = asyncMiddleware(async (req, res) => {
   console.log("Sign-In");
   const user = await User.findOne({

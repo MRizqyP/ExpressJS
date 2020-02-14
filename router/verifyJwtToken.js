@@ -4,9 +4,8 @@ const db = require("../app/db.js");
 const Role = db.role;
 const User = db.user;
 verifyToken = (req, res, next) => {
-  let token = req.headers["x-access?token"] || req.headers["authorization"];
-  // Express headers are auto converted to lowercase
-  if (token !== undifined && token.startsWith("Bearer ")) {
+  let token = req.headers["x-access?token"] || req.headers["authorization"]; // Express headers are auto convertedto lowercase
+  if (token.startsWith("Bearer ")) {
     // Remove Bearer from string
     token = token.slice(7, token.length);
   }

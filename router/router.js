@@ -17,7 +17,8 @@ module.exports = function(app) {
   app.get("/api/users", [authJwt.verifyToken], userController.users);
   // get 1 user according to roles
 
-  app.get("/books", [authJwt.verifyToken]);
+  app.post("/books", [authJwt.verifyToken], userController.books);
+
   app.get("/api/test/user", [authJwt.verifyToken], userController.userContent);
   app.get(
     "/api/test/pm",
