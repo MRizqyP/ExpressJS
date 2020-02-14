@@ -5,17 +5,19 @@ const userController = require("../controller/userController.js");
 module.exports = function(app) {
   // Auth
   app.post(
-    "/api/auth/signup",
+    "/register",
     [
       verifySignUp.checkDuplicateUserNameOrEmail,
       verifySignUp.checkRolesExisted
     ],
     authController.signup
   );
-  app.post("/api/auth/signin", authController.signin);
+  app.post("/login", authController.signin);
   // get all user
   app.get("/api/users", [authJwt.verifyToken], userController.users);
   // get 1 user according to roles
+
+  app.get("/books", [authJwt.verifyToken]);
   app.get("/api/test/user", [authJwt.verifyToken], userController.userContent);
   app.get(
     "/api/test/pm",

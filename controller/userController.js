@@ -1,6 +1,7 @@
 const db = require("../app/db.js");
 const User = db.user;
 const Role = db.role;
+const Book = db.book;
 const asyncMiddleware = require("express-async-handler");
 
 exports.users = asyncMiddleware(async (req, res) => {
@@ -18,6 +19,24 @@ exports.users = asyncMiddleware(async (req, res) => {
   });
   res.status(200).json({
     description: "All User",
+    user: user
+  });
+});
+exports.books = asyncMiddleware(async (req, res) => {
+  const book = await book.findAll({
+    attributes: ["title", "author", "pages"],
+    include: [
+      {
+        model: Role,
+        attributes: ["id", "name"],
+        through: {
+          attributes: ["userId", "bookId"]
+        }
+      }
+    ]
+  });
+  res.status(200).json({
+    description: "All Books",
     user: user
   });
 });
