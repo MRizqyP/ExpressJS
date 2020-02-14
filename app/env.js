@@ -1,5 +1,5 @@
 const env = {
-  database: "jwt",
+  database: "jwt_books",
   username: "root",
   password: "n",
   host: "localhost",
