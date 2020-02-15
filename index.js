@@ -4,10 +4,11 @@ var morgan = require("morgan");
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(morgan("common"));
-require("./router/router.js")(app);
+
 const db = require("./app/db.js");
 const Role = db.role;
-
+const Book = db.book;
+require("./router/router.js")(app);
 // force: true will drop the table if it already exists (comment this part aft
 // er first run, to disable migration)
 // db.sequelize.sync({ force: true }).then(() => {
@@ -18,7 +19,7 @@ const Role = db.role;
 // require("./app/route/project.route.js")(app);
 
 // Create a Server
-var server = app.listen(8085, "127.0.0.1", function() {
+var server = app.listen(8086, "127.0.0.1", function() {
   var host = server.address().address;
   var port = server.address().port;
   console.log("App listening at http://%s:%s", host, port);
@@ -36,5 +37,15 @@ var server = app.listen(8085, "127.0.0.1", function() {
 //   Role.create({
 //     id: 3,
 //     name: "PM"
+//   });
+// }
+// function book() {
+//   Book.create({
+//     title: "Sikancil",
+//     author: "Kinyot",
+//     published_date: "ea",
+//     pages: "21",
+//     language: "inggris",
+//     published_id: "12"
 //   });
 // }

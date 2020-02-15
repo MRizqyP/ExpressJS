@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING
     },
     published_date: {
-      type: Sequelize.DATEONLY
+      type: Sequelize.STRING
     },
     pages: {
       type: Sequelize.STRING

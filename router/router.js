@@ -1,8 +1,14 @@
-const verifySignUp = require("./verifySignUp");
-const authJwt = require("./verifyJwtToken");
-const authController = require("../controller/authController.js");
-const userController = require("../controller/userController.js");
 module.exports = function(app) {
+  const verifySignUp = require("./verifySignUp");
+  const authJwt = require("./verifyJwtToken");
+  const authController = require("../controller/authController.js");
+  const userController = require("../controller/userController.js");
+  const db = require("../app/db");
+  const Book = db.book;
+  const express = require("express");
+
+  app.use(express.json());
+
   // Auth
   app.post(
     "/register",
@@ -17,7 +23,19 @@ module.exports = function(app) {
   app.get("/api/users", [authJwt.verifyToken], userController.users);
   // get 1 user according to roles
 
-  app.post("/books", [authJwt.verifyToken], userController.tambahbuku);
+  app.post(
+    "/books",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    bookController.tambahBuku
+  );
+
+  app.get("/books", [authJwt.verifyToken], bookController.tampilsemuaBuku);
+
+  app.get("/books/:id", [authJwt.verifyToken], bookController.tampilBuku);
+
+  app.put("/books/:id", [authJwt.verifyToken], bookController.rubahBuku);
+
+  app.delete("/books/:id", [authJwt.verifyToken], bookController.deleteBuku);
 
   app.get("/api/test/user", [authJwt.verifyToken], userController.userContent);
   app.get(
