@@ -27,14 +27,14 @@ db.user.belongsToMany(db.role, {
   foreignKey: "userId",
   otherKey: "roleId"
 });
-// db.book.belongsToMany(db.user, {
-//   through: "book_user",
-//   foreignKey: "bookId",
-//   otherKey: "userId"
-// });
-// db.user.belongsToMany(db.book, {
-//   through: "book_user",
-//   foreignKey: "userId",
-//   otherKey: "bookId"
-// });
+db.book.belongsToMany(db.user, {
+  through: "book_user",
+  foreignKey: "bookId",
+  otherKey: "userId"
+});
+db.user.belongsToMany(db.book, {
+  through: "book_user",
+  foreignKey: "userId",
+  otherKey: "bookId"
+});
 module.exports = db;

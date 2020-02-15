@@ -1,5 +1,6 @@
 const db = require("../app/db.js");
 const Book = db.book;
+const User = db.user;
 const asyncMiddleware = require("express-async-handler");
 
 exports.tambahBuku = asyncMiddleware(async (req, res) => {
@@ -56,7 +57,7 @@ exports.rubahBuku = asyncMiddleware(async (req, res) => {
 
 //show book by id
 exports.tampilBuku = asyncMiddleware(async (req, res) => {
-  await Book.findOne({
+  const book = await Book.findOne({
     where: { id: req.params.id },
     attributes: [
       "title",
@@ -64,16 +65,16 @@ exports.tampilBuku = asyncMiddleware(async (req, res) => {
       "pages",
       "published_date",
       "language",
-      "publisher_id"
+      "published_id"
     ]
   });
+
   res.status(200).json({
     description: "Tampil Buku",
-    user: user
+    book: book
   });
 });
 
-//show all books
 exports.tampilsemuaBuku = asyncMiddleware(async (req, res) => {
   const book = await Book.findAll({
     attributes: [
@@ -82,7 +83,7 @@ exports.tampilsemuaBuku = asyncMiddleware(async (req, res) => {
       "pages",
       "published_date",
       "language",
-      "publisher_id"
+      "published_id"
     ]
   });
   res.status(200).json({
@@ -91,7 +92,6 @@ exports.tampilsemuaBuku = asyncMiddleware(async (req, res) => {
   });
 });
 
-//delete book by id
 exports.hapusBuku = asyncMiddleware(async (req, res) => {
   await Book.destroy({ where: { id: req.params.id } });
   res.status(201).send({
@@ -99,9 +99,7 @@ exports.hapusBuku = asyncMiddleware(async (req, res) => {
   });
 });
 
-exports.order = asyncMiddleware(async (req, res) => {
-  // Save order to Database
-  console.log("Processing func -> Order");
+exports.buatOrder = asyncMiddleware(async (req, res) => {
   const user = await User.findOne({
     where: { id: req.userId }
   });
@@ -110,18 +108,26 @@ exports.order = asyncMiddleware(async (req, res) => {
   });
   await user.addBooks(books);
   res.status(201).send({
+    user: user,
+    books: books,
     status: "order berhasil!"
   });
 });
 
-//show all orders
-exports.orders = asyncMiddleware(async (req, res) => {
+exports.liatsemuaOrder = asyncMiddleware(async (req, res) => {
   const user = await User.findAll({
     attributes: ["name", "username", "email"],
     include: [
       {
         model: Book,
-        attributes: ["title", "author", "pages", "language", "publisher_id"],
+        attributes: [
+          "title",
+          "author",
+          "pages",
+          "published_date",
+          "language",
+          "publisher_id"
+        ],
         through: {
           attributes: ["userId", "bookId"]
         }
@@ -134,15 +140,21 @@ exports.orders = asyncMiddleware(async (req, res) => {
   });
 });
 
-//find order by user id
-exports.getOrder = asyncMiddleware(async (req, res) => {
+exports.liatOrder = asyncMiddleware(async (req, res) => {
   const user = await User.findOne({
     where: { id: req.userId },
     attributes: ["name", "username", "email"],
     include: [
       {
         model: Book,
-        attributes: ["title", "author", "page", "language", "publisher_id"],
+        attributes: [
+          "title",
+          "author",
+          "pages",
+          "published_date",
+          "language",
+          "publisher_id"
+        ],
         through: {
           attributes: ["userId", "bookId"]
         }

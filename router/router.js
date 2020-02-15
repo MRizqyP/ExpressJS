@@ -3,6 +3,7 @@ module.exports = function(app) {
   const authJwt = require("./verifyJwtToken");
   const authController = require("../controller/authController.js");
   const userController = require("../controller/userController.js");
+  const bookController = require("../controller/bookController.js");
   const db = require("../app/db");
   const Book = db.book;
   const express = require("express");
@@ -35,9 +36,15 @@ module.exports = function(app) {
 
   app.put("/books/:id", [authJwt.verifyToken], bookController.rubahBuku);
 
-  app.delete("/books/:id", [authJwt.verifyToken], bookController.deleteBuku);
+  app.delete("/books/:id", [authJwt.verifyToken], bookController.hapusBuku);
 
   app.get("/api/test/user", [authJwt.verifyToken], userController.userContent);
+
+  app.get("/orders", [authJwt.verifyToken], bookController.liatsemuaOrder);
+
+  app.get("/orders/:id", [authJwt.verifyToken], bookController.liatOrder);
+
+  app.post("/orders/:id", [authJwt.verifyToken], bookController.buatOrder);
   app.get(
     "/api/test/pm",
     [authJwt.verifyToken, authJwt.isPmOrAdmin],
