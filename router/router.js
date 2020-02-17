@@ -5,6 +5,11 @@ module.exports = function(app) {
   const userController = require("../controller/userController.js");
   const bookController = require("../controller/bookController.js");
   const orderController = require("../controller/orderController.js");
+  const {
+    bookValidationRules,
+    userValidationRules,
+    validate
+  } = require("../controller/validator.js");
   const db = require("../app/db");
   const Book = db.book;
   const express = require("express");
@@ -15,6 +20,8 @@ module.exports = function(app) {
   app.post(
     "/register",
     [
+      userValidationRules(),
+      validate,
       verifySignUp.checkDuplicateUserNameOrEmail,
       verifySignUp.checkRolesExisted
     ],
@@ -27,7 +34,8 @@ module.exports = function(app) {
 
   app.post(
     "/books",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.isAdmin, bookValidationRules(), validate],
+
     bookController.tambahBuku
   );
 
