@@ -126,7 +126,7 @@ exports.liatsemuaOrder = asyncMiddleware(async (req, res) => {
           "pages",
           "published_date",
           "language",
-          "publisher_id"
+          "published_id"
         ],
         through: {
           attributes: ["userId", "bookId"]

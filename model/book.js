@@ -1,3 +1,4 @@
+//Mendifinisikan Sequelize Model
 module.exports = (sequelize, Sequelize) => {
   const Book = sequelize.define("books", {
     title: {
@@ -7,10 +8,10 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING
     },
     published_date: {
-      type: Sequelize.STRING
+      type: Sequelize.DATE
     },
     pages: {
-      type: Sequelize.STRING
+      type: Sequelize.INTERGER
     },
     language: {
       type: Sequelize.STRING

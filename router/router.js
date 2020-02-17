@@ -34,9 +34,17 @@ module.exports = function(app) {
 
   app.get("/books/:id", [authJwt.verifyToken], bookController.tampilBuku);
 
-  app.put("/books/:id", [authJwt.verifyToken], bookController.rubahBuku);
+  app.put(
+    "/books/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    bookController.rubahBuku
+  );
 
-  app.delete("/books/:id", [authJwt.verifyToken], bookController.hapusBuku);
+  app.delete(
+    "/books/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    bookController.hapusBuku
+  );
 
   app.get("/api/test/user", [authJwt.verifyToken], userController.userContent);
 
@@ -44,7 +52,11 @@ module.exports = function(app) {
 
   app.get("/orders/:id", [authJwt.verifyToken], bookController.liatOrder);
 
-  app.post("/orders/:id", [authJwt.verifyToken], bookController.buatOrder);
+  app.post(
+    "/orders/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    bookController.buatOrder
+  );
   app.get(
     "/api/test/pm",
     [authJwt.verifyToken, authJwt.isPmOrAdmin],

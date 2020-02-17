@@ -7,6 +7,7 @@ const asyncMiddleware = require("express-async-handler");
 const Op = db.Sequelize.Op;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
+
 exports.signup = asyncMiddleware(async (req, res) => {
   // Save User to Database
   console.log("Processing func -> SignUp");
@@ -24,6 +25,18 @@ exports.signup = asyncMiddleware(async (req, res) => {
     }
   });
   await user.setRoles(roles);
+  // using Twilio SendGrid's v3 Node.js Library
+  // https://github.com/sendgrid/sendgrid-nodejs
+  const sgMail = require("@sendgrid/mail");
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  const msg = {
+    to: req.body.email,
+    from: "admin@kinyot.com",
+    subject: "Registrasi Buku",
+    text: "Selamat anda telah berhasil registrasi ",
+    html: "<strong>Semoga anda semangat setalah mendaftar</strong>"
+  };
+  sgMail.send(msg);
   res.status(201).send({
     status: "User registered successfully!"
   });

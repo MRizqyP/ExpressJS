@@ -1,3 +1,4 @@
+//Mendifinisikan Sequelize Model
 module.exports = (sequelize, Sequelize) => {
   const Role = sequelize.define("roles", {
     id: {

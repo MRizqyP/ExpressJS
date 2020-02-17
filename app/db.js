@@ -1,3 +1,5 @@
+//initailize sequelize
+
 const env = require("./env.js");
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(env.database, env.username, env.password, {
@@ -16,7 +18,9 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.user = require("../model/user.js")(sequelize, Sequelize);
 db.role = require("../model/role.js")(sequelize, Sequelize);
+
 db.book = require("../model/book.js")(sequelize, Sequelize);
+
 db.role.belongsToMany(db.user, {
   through: "user_roles",
   foreignKey: "roleId",
@@ -27,6 +31,7 @@ db.user.belongsToMany(db.role, {
   foreignKey: "userId",
   otherKey: "roleId"
 });
+
 db.book.belongsToMany(db.user, {
   through: "book_user",
   foreignKey: "bookId",
