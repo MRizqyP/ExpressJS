@@ -4,6 +4,7 @@ module.exports = function(app) {
   const authController = require("../controller/authController.js");
   const userController = require("../controller/userController.js");
   const bookController = require("../controller/bookController.js");
+  const orderController = require("../controller/orderController.js");
   const db = require("../app/db");
   const Book = db.book;
   const express = require("express");
@@ -48,14 +49,14 @@ module.exports = function(app) {
 
   app.get("/api/test/user", [authJwt.verifyToken], userController.userContent);
 
-  app.get("/orders", [authJwt.verifyToken], bookController.liatsemuaOrder);
+  app.get("/orders", [authJwt.verifyToken], orderController.liatsemuaOrder);
 
-  app.get("/orders/:id", [authJwt.verifyToken], bookController.liatOrder);
+  app.get("/orders/:id", [authJwt.verifyToken], orderController.liatOrder);
 
   app.post(
-    "/orders/:id",
+    "/orders",
     [authJwt.verifyToken, authJwt.isAdmin],
-    bookController.buatOrder
+    orderController.buatOrder
   );
   app.get(
     "/api/test/pm",

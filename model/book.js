@@ -11,7 +11,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.DATE
     },
     pages: {
-      type: Sequelize.INTERGER
+      type: Sequelize.INTEGER
     },
     language: {
       type: Sequelize.STRING
